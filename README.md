@@ -9,3 +9,20 @@ Welcome to Anthropic's educational courses. This repository currently contains f
 5. [Tool use](./tool_use/README.md) - teaches everything you need to know to implement tool use successfully in your workflows with Claude.
 
 **Please note that these courses often favor our lowest-cost model, Claude 3 Haiku, to keep API costs down for students following along with the materials. Feel free to use other Claude models if you prefer.**
+
+## Environment Setup
+
+To get started, you'll need to install the required Python packages and set up your API key.
+
+1.  **Install dependencies**:
+    We recommend using a virtual environment.
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2.  **Configure API Key**:
+    Copy the example environment file and add your API key.
+    ```bash
+    cp .env.example .env
+    ```
+    Open `.env` and replace `your_api_key_here` with your actual Anthropic API key.
