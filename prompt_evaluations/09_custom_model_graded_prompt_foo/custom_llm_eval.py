@@ -1,6 +1,7 @@
 import anthropic
 import os
 import json
+import html
 
 def llm_eval(summary, article):
     """
@@ -14,6 +15,10 @@ def llm_eval(summary, article):
     bool: True if the average score is above the threshold, False otherwise.
     """
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+
+    # Sanitize inputs to prevent prompt injection or XML parsing confusion
+    summary = html.escape(summary)
+    article = html.escape(article)
 
     prompt = f"""Evaluate the following summary based on these criteria:
     1. Conciseness (1-5) - is the summary as concise as possible?
