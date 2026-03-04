@@ -1,6 +1,7 @@
 import anthropic
 import os
 import json
+import html
 
 def llm_eval(summary, article):
     """
@@ -107,9 +108,9 @@ def llm_eval(summary, article):
     </json>
 
 
-    Original Text: <original_article>{article}</original_article>
+    Original Text: <original_article>{html.escape(article)}</original_article>
     
-    Summary to Evaluate: <summary>{summary}</summary>
+    Summary to Evaluate: <summary>{html.escape(summary)}</summary>
     """
     
     response = client.messages.create(
