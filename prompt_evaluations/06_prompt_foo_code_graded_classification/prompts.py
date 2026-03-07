@@ -1,4 +1,8 @@
+import html
+
 def basic_prompt(complaint):
+    if isinstance(complaint, dict):
+        complaint = complaint.get('complaint', str(complaint))
     return f"""
     Classify the following customer complaint into one or more of these categories: 
     Software Bug, Hardware Malfunction, User Error, Feature Request, or Service Outage.
@@ -11,6 +15,8 @@ def basic_prompt(complaint):
 
 
 def improved_prompt(complaint):
+    if isinstance(complaint, dict):
+        complaint = complaint.get('complaint', str(complaint))
     return f"""
     You are an AI assistant specializing in customer support issue classification. Your task is to analyze customer complaints and categorize them into one or more of the following categories:
 
@@ -53,7 +59,7 @@ def improved_prompt(complaint):
 
     Now, please classify the following customer complaint:
 
-    <complaint>{complaint}</complaint>
+    <complaint>{html.escape(str(complaint))}</complaint>
 
     Only respond with the appropriate categories and nothing else.
     Classification:
