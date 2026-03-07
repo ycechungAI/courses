@@ -16,6 +16,10 @@ def llm_eval(summary, article):
     """
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+    # Sanitize inputs to prevent prompt injection or XML parsing confusion
+    summary = html.escape(summary)
+    article = html.escape(article)
+
     prompt = f"""Evaluate the following summary based on these criteria:
     1. Conciseness (1-5) - is the summary as concise as possible?
         - Conciseness of 1: The summary is unnecessarily long, including excessive details, repetitions, or irrelevant information. It fails to distill the key points effectively.
