@@ -17,6 +17,16 @@ def llm_eval(summary, article):
     client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
     # Sanitize inputs to prevent prompt injection or XML parsing confusion
+    if isinstance(summary, dict):
+        summary = json.dumps(summary)
+    elif not isinstance(summary, str):
+        summary = str(summary)
+
+    if isinstance(article, dict):
+        article = json.dumps(article)
+    elif not isinstance(article, str):
+        article = str(article)
+
     summary = html.escape(summary)
     article = html.escape(article)
 
@@ -112,9 +122,9 @@ def llm_eval(summary, article):
     </json>
 
 
-    Original Text: <original_article>{html.escape(article)}</original_article>
+    Original Text: <original_article>{article}</original_article>
     
-    Summary to Evaluate: <summary>{html.escape(summary)}</summary>
+    Summary to Evaluate: <summary>{summary}</summary>
     """
     
     response = client.messages.create(
