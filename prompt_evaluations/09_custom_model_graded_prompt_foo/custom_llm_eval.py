@@ -18,17 +18,12 @@ def llm_eval(summary, article):
 
     # Sanitize inputs to prevent prompt injection or XML parsing confusion
     if isinstance(summary, dict):
-        summary = json.dumps(summary)
-    elif not isinstance(summary, str):
-        summary = str(summary)
-
+        summary = summary.get('summary', str(summary))
     if isinstance(article, dict):
-        article = json.dumps(article)
-    elif not isinstance(article, str):
-        article = str(article)
+        article = article.get('article', str(article))
 
-    summary = html.escape(summary)
-    article = html.escape(article)
+    summary = html.escape(str(summary))
+    article = html.escape(str(article))
 
     prompt = f"""Evaluate the following summary based on these criteria:
     1. Conciseness (1-5) - is the summary as concise as possible?
