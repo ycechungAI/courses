@@ -6,3 +6,7 @@
 **Vulnerability:** User inputs were placed directly inside XML tags in LLM prompts without sanitization.
 **Learning:** If a user input contains XML-like tags, it could confuse the LLM's understanding of the prompt structure and break prompt logic.
 **Prevention:** Use `html.escape()` when inserting user inputs into prompts, particularly when the prompt structure relies on XML tags.
+## 2024-05-24 - [Prompt Injection in Jupyter Notebooks]
+**Vulnerability:** Evaluation notebooks like `03_code_graded.ipynb` and `04_code_graded_classification_evals.ipynb` construct prompts using f-strings with XML-like tags (`<animal_statement>{animal_statement}</animal_statement>`). Unsanitized inputs containing closing tags (e.g., `</animal_statement>`) can break the prompt structure and inject instructions.
+**Learning:** Even internal evaluation tools and educational notebooks need input sanitization to prevent structure confusion, especially when grading potentially adversarial inputs. When modifying notebook code, one must carefully write json transformation tools rather than raw string replacement tools.
+**Prevention:** Always use `html.escape()` or similar sanitization on variable inputs before inserting them into XML-structured prompts.
