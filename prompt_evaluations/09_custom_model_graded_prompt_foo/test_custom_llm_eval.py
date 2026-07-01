@@ -38,14 +38,13 @@ class TestSecurityFix(unittest.TestCase):
         start_idx = user_content.find("Summary to Evaluate:")
         print(user_content[start_idx:])
 
-        # Assert that the tags are escaped
-        self.assertIn("&lt;summary&gt;", user_content, "Summary tags were not escaped!")
-        self.assertIn("&lt;/summary&gt;", user_content, "Summary end tags were not escaped!")
-        self.assertIn("&lt;original_article&gt;", user_content, "Article tags were not escaped!")
-        self.assertIn("&lt;/original_article&gt;", user_content, "Article end tags were not escaped!")
+        # Note: the prompt template itself contains <summary> tags, so we can't assertNotIn("<summary>").
+        # Instead, we assert that the specific malicious content is present in its stripped form
+        # and NOT present in its raw form.
 
-        # Assert that the raw tags are NOT present
-        self.assertNotIn(f"<summary>{malicious_summary}</summary>", user_content, "Raw summary tag found!")
+        self.assertNotIn(f"<summary>{malicious_summary}</summary>", user_content, "Raw malicious payload should not be present!")
+        self.assertIn("Malicious summary end tag /summary", user_content, "Stripped summary should be present!")
+        self.assertIn("Article with original_article tags /original_article", user_content, "Stripped article should be present!")
 
 if __name__ == '__main__':
     unittest.main()
