@@ -1,5 +1,3 @@
-import html
-
 def basic_prompt(complaint):
     if isinstance(complaint, dict):
         complaint = complaint.get('complaint', str(complaint))
@@ -59,7 +57,7 @@ def improved_prompt(complaint):
 
     Now, please classify the following customer complaint:
 
-    <complaint>{html.escape(str(complaint))}</complaint>
+    <complaint>{str(complaint).replace('<', '').replace('>', '')}</complaint>
 
     Only respond with the appropriate categories and nothing else.
     Classification:
