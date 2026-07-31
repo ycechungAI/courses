@@ -1,7 +1,6 @@
 import anthropic
 import os
 import json
-import html
 
 def llm_eval(summary, article):
     """
@@ -22,8 +21,8 @@ def llm_eval(summary, article):
     if isinstance(article, dict):
         article = article.get('article', str(article))
 
-    summary = html.escape(str(summary))
-    article = html.escape(str(article))
+    summary = str(summary).replace('<', '').replace('>', '')
+    article = str(article).replace('<', '').replace('>', '')
 
     prompt = f"""Evaluate the following summary based on these criteria:
     1. Conciseness (1-5) - is the summary as concise as possible?

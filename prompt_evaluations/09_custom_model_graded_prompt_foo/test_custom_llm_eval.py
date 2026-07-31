@@ -38,11 +38,11 @@ class TestSecurityFix(unittest.TestCase):
         start_idx = user_content.find("Summary to Evaluate:")
         print(user_content[start_idx:])
 
-        # Assert that the tags are escaped
-        self.assertIn("&lt;summary&gt;", user_content, "Summary tags were not escaped!")
-        self.assertIn("&lt;/summary&gt;", user_content, "Summary end tags were not escaped!")
-        self.assertIn("&lt;original_article&gt;", user_content, "Article tags were not escaped!")
-        self.assertIn("&lt;/original_article&gt;", user_content, "Article end tags were not escaped!")
+        # Assert that the tags are stripped
+        self.assertNotIn("<summary> end tag </summary>", user_content, "Summary tags were not stripped!")
+        self.assertNotIn("<original_article> tags </original_article>", user_content, "Article tags were not stripped!")
+        self.assertIn("Malicious summary end tag /summary", user_content, "Summary text not properly stripped of tags!")
+        self.assertIn("Article with original_article tags /original_article", user_content, "Article text not properly stripped of tags!")
 
         # Assert that the raw tags are NOT present
         self.assertNotIn(f"<summary>{malicious_summary}</summary>", user_content, "Raw summary tag found!")
